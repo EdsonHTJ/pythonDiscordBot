@@ -41,7 +41,14 @@ class music(commands.Cog):
             except:
                 info = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0]
 
+
             url2 = info['formats'][0]['url']
+            video_url = info.get('title', None)
+            video_id = info.get("id", None)
+
+
+            await ctx.send(f"playing: {video_url} \nhttps://www.youtube.com/watch?v={video_id}")
+
             source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPMEG_OPTIONS)
             vc.play(source)
 

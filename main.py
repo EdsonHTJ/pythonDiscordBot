@@ -2,9 +2,9 @@ import discord
 from discord.ext import commands
 from discord.ext.commands import cog
 from discord.flags import Intents
-import music
+import bot
 
-cogs = [music]
+cogs = [bot]
 
 apikey = open("./APIKEY.txt","r").read()
      

@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 from discord.ext.commands.core import command
 import youtube_dl
+from random import randint
 
 class music(commands.Cog):
     def __init__(self, client):
@@ -24,7 +25,10 @@ class music(commands.Cog):
         await ctx.voice_client.disconnect()
 
     @commands.command()
-    async def frita(self, ctx, url):
+    async def frita(self, ctx, *inputs):
+
+        url = ''.join(inputs)
+
         await self.join(ctx)
         ctx.voice_client.stop()
         FFMPMEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
@@ -40,6 +44,35 @@ class music(commands.Cog):
             url2 = info['formats'][0]['url']
             source = await discord.FFmpegOpusAudio.from_probe(url2, **FFMPMEG_OPTIONS)
             vc.play(source)
+
+    @commands.command()
+    async def pause(self, ctx):
+        await ctx.voice_client.pause()
+        await ctx.send("Paused")
+
+    @commands.command()
+    async def resume(self, ctx):
+        await ctx.voice_client.resume()
+        await ctx.send("resumed")
+
+    @commands.command()
+    async def alyson(self, ctx):
+        await ctx.send("CLUBISTA MASTER")
+
+    @commands.command()
+    async def corno(self, ctx):
+        channel = self.client.get_channel(ctx.author.voice.channel.id)
+        vm = channel.members
+        await ctx.send(f"Existem {len(vm)} possiveis cornos")
+        for member in vm:
+            await ctx.send(member.mention)
+
+        ri = randint(0, len(vm))
+        await ctx.send(f"mas {vm[ri].mention} sem duvida é o maior deles")
+
+        
+
+
 
 
 

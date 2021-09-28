@@ -13,4 +13,7 @@ client = commands.Bot(command_prefix='?', Intents= discord.Intents.all)
 for i in range(len(cogs)):
     cogs[i].setup(client)
 
+print("BOT STARTED")
+
 client.run(apikey)
+

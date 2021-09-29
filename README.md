@@ -11,7 +11,8 @@ https://www.youtube.com/watch?v=jHZlvRr9KxM
 
 **If you are a friend and need to host the bot to our server:**
 
-**Ask Edson for a key**
+* **Ask Edson for a key**
+* Create an APIKEY.txt and put the key inside
 
 **Else:**
 * Go to site [Discord developer]("https://discord.com/developers/")
@@ -22,7 +23,9 @@ https://www.youtube.com/watch?v=jHZlvRr9KxM
 * Go to OAuth2
 * In SCOPES check bot and applications.entitlements
 * In BOT PERMISSIONS check Administrator
-* cClick copy and go to the link to add the bot to your Discord server 
+* Click copy and go to the link to add the bot to your Discord server
+* Go to bot and click Copy in Token
+* Create an APIKEY.txt and put the key inside
 ## How to Install
 
 Run for **Linux**

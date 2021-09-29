@@ -1,4 +1,5 @@
 import discord
+from discord import message
 from discord.ext import commands
 from discord.ext.commands.core import command
 import youtube_dl
@@ -60,9 +61,11 @@ class music(commands.Cog):
         await ctx.send(f"Added -> {info.get('title', None)}")
 
     def playNextVideo(self, ctx):
+
         if len(self.urlQueue) == 0:
+            ctx.voice_client.stop()
             return
-        
+
         info, source = self.urlQueue[0]
         self.urlQueue = self.urlQueue[1:]
         self.playVideo(ctx, info, source)
@@ -75,23 +78,25 @@ class music(commands.Cog):
         video_title = info.get('title', None)
         video_id = info.get("id", None)
 
+        self.send(ctx, f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
+
         print(f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
 
         #await ctx.send(f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
 
         vc.play(source, after = lambda _: self.playNextVideo(ctx) )
-        
- 
 
     def send(self, ctx, message):
-        print("teste2")
-        td =  Thread(target=asyncio.run, args=(send(ctx,"some text"),))
-        td.start()
-
+        try:
+            loop = asyncio.get_event_loop()
+            loop.create_task(ctx.send(message))
+        except:
+            pass
 
     @commands.command()
     async def skip(self, ctx):
-        await self.playNextVideo(ctx)
+        ctx.send("Skipping Video")
+        self.playNextVideo(ctx)
 
     @commands.command()
     async def pause(self, ctx):

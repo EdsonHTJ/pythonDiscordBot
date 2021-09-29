@@ -128,7 +128,7 @@ class music(commands.Cog):
 
         cg = CoinGeckoAPI()
         price = cg.get_price(ids = coin, vs_currencies = vsc)
-        await ctx.send(price)
+        await ctx.send(f"{coin.title()}: {price[coin][vsc]} {vsc.upper()}")
 
     async def getVideoInfo(self, url):
         YDL_OPTIONS = {'format': "bestaudio"}        

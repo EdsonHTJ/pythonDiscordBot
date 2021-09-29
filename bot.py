@@ -49,7 +49,9 @@ class music(commands.Cog):
             return
 
         await self.addItemToQueue(ctx, url)
-        self.playNextVideo(ctx= ctx)
+
+        if  ctx.voice_client.is_playing() == 0:
+            self.playNextVideo(ctx= ctx)
 
     async def addItemToQueue(self, ctx, url):
         info, source = await self.getVideoInfo(url)

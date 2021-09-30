@@ -2,21 +2,19 @@ import discord
 from discord import message
 from discord.ext import commands
 from discord.ext.commands.core import command
-import youtube_dl
+from music.music import getVideoInfo
 from pycoingecko import CoinGeckoAPI
 import asyncio
 from threading import Thread
 
 from random import randint
 
-class music(commands.Cog):
+class bot(commands.Cog):
 
 
     def __init__(self, client):
         self.client = client
         self.urlQueue = []
-        self.FFMPMEG_OPTIONS = {'before_options': '-reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5', 'options': '-vn'}
-
 
     @commands.command()
     async def join(self, ctx):
@@ -40,7 +38,7 @@ class music(commands.Cog):
         await self.addItemToQueue(ctx, url)
 
     @commands.command()
-    async def frita(self, ctx, *inputs):
+    async def play(self, ctx, *inputs):
 
         url = ''.join(inputs)
         await self.join(ctx)
@@ -55,7 +53,7 @@ class music(commands.Cog):
             self.playNextVideo(ctx= ctx)
 
     async def addItemToQueue(self, ctx, url):
-        info, source = await self.getVideoInfo(url)
+        info, source = await getVideoInfo(url)
         self.urlQueue.append( (info, source) )
 
         await ctx.send(f"Added -> {info.get('title', None)}")
@@ -135,22 +133,7 @@ class music(commands.Cog):
         price = cg.get_price(ids = coin, vs_currencies = vsc)
         await ctx.send(f"{coin.title()}: {price[coin][vsc]} {vsc.upper()}")
 
-    async def getVideoInfo(self, url):
-        YDL_OPTIONS = {'format': "bestaudio"}        
-        with youtube_dl.YoutubeDL(YDL_OPTIONS) as ydl:
-            try:
-                info = ydl.extract_info(url, download= False)
-            except:
-                info = ydl.extract_info(f"ytsearch:{url}", download=False)['entries'][0]
-
-
-        url2 = info['formats'][0]['url']
-        
-        source = await discord.FFmpegOpusAudio.from_probe(url2, **self.FFMPMEG_OPTIONS)
-
-        return info, source
-
 
 def setup(client):
-    client.add_cog(music(client))
+    client.add_cog(bot(client))
 

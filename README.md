@@ -42,14 +42,17 @@ Run
 ```
 python3 main.py 
 ```
+## Prefix
+* ;
+
 ## Commands
-* ?join
-* ?disconnect
-* ?queue
-* ?frita {music or video, name or link}
-* ?skip
-* ?pause
-* ?resume
-* ?alyson
-* ?corno
-* ?coin
+* join
+* disconnect
+* queue
+* frita {music or video, name or link}
+* skip
+* pause
+* resume
+* alyson
+* corno
+* coin

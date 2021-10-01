@@ -1,4 +1,3 @@
-
 from enum import Enum
 from random import seed
 from random import random
@@ -43,6 +42,10 @@ class player():
         self.name = name
         self.status = States.ALIVE
         self.life = 50
+        self.stamina = 100
+    
+    def __str__(self):
+        return f'name: {self.name}, status: {self.status}, life: {self.life}, stamina: {self.stamina}'
 
 
 class BattleRoyale():
@@ -51,6 +54,7 @@ class BattleRoyale():
         self.alive = []
         self.dead = []
         self.output = ""
+        self.deadToday = []
 
         self.SINGLEKILLCHANCE = 0.6
         self.DEATHCHANCE = 0.8
@@ -69,12 +73,17 @@ class BattleRoyale():
     def run(self):
         self.alive = self.players
         isDay = False
+        day = 1
         while(len(self.alive) > 2):
-            ...
+            self.output += f'Começo do dia {day}\n.\n'
+            self.execDay() if isDay else self.execNight()
+            day += 1
+            isDay = not isDay
 
         winner = self.versus(self.alive[0], self.alive[1])
 
         self.output += winner.name + " is the winner\n"
+
         return self.output
 
     def versus(self, player1, player2):
@@ -120,8 +129,25 @@ class BattleRoyale():
         return player1
 
     def execDay(self):
-        increaseStamina()
-        execEvent()
+        self.deadToday = []
+        for turns in range(len(self.alive) if len(self.alive) > 4 else 4):
+            if(len(self.alive) <= 2):
+                break
+            self.execEvent()
+
+    def execNight(self):
+        for turns in range(len(self.alive) if len(self.alive) > 4 else 4):
+            if(len(self.alive) <= 2):
+                break
+            self.execEvent()
+        self.increaseStamina()
+        self.F()
+
+    def F(self):
+        self.output += f'Canhões ecoam pela noite. {len(self.deadToday)} participantes morreram.\n'
+        for player in self.deadToday:
+            self.output += player.name + ' '
+        self.output += '\n.\n'
 
 
     def execEvent(self):
@@ -133,41 +159,43 @@ class BattleRoyale():
         if event == Events.SINGLEKILL:
             self.eventKill()
 
-    def increaseStamina():
+    def increaseStamina(self):
         for player in self.alive:
-            player += randint(0, 100 - player.stamina)
+            player.stamina += randint(0, 100 - player.stamina)
 
 
     def eventNothing(self):
 
         self.SINGLEKILLCHANCE -= 0.01
         self.DEATHCHANCE -= 0.01
-        pi = randint(0, len(self.alive) - 1)
-        p = self.alive[pi]
 
-        rq = randint(0, len(nothings) - 1);
-        self.output += nothings[rq].replace("@v@", p.name , 1)
+        player = playerRoulette(self.alive)
+
+        randomIndex = randint(0, len(nothings) - 1);
+        self.output += nothings[randomIndex].replace("@v@", player.name , 1)
         
 
     def eventDeath(self):
-        alivecopy = self.alive
+        alivecopy = self.alive.copy()
 
         pv, alivecopy = getRandomPlayerFromArray(alivecopy)
 
         self.dead.append(pv)
-        self.alive = alivecopy
+        self.deadToday.append(pv)
+        self.alive = alivecopy.copy()
 
         rq = randint(0, len(deaths) - 1);
         self.output += deaths[rq].replace("@v@", pv.name, 1)
 
 
     def eventKill(self):
-        alivecopy = self.alive
+        alivecopy = self.alive.copy()
 
         pv, alivecopy = getRandomPlayerFromArray(alivecopy)
 
         self.dead.append(pv)
-        self.alive = alivecopy
+        self.deadToday.append(pv)
+        self.alive = alivecopy.copy()
         pk, alivecopy = getRandomPlayerFromArray(alivecopy)
 
 
@@ -176,28 +204,23 @@ class BattleRoyale():
         self.output += out1.replace("@k@", pk.name, 1)
 
 
-    def playerRoulette(self):
-        roulette_wheel_position = random() * sum([player.stamina for player in self.alive])
-        spin_whell = 0
-        staminaSortedPlayers = sorted(self.alive, key = lambda player: player.stamina, reverse = True)
-        for i in range(len(staminaSortedPlayers)):
-            spin_whell += staminaSortedPlayers[i];
-            if spin_whell >= roulette_wheel_position:
-                return staminaSortedPlayers[i];
-
-        return staminaSortedPlayers[-1];
-    
-
-
-
-
 def getRandomPlayerFromArray(playerArray):
-    pi = randint(0, len(playerArray) - 1)
-    p = playerArray[pi]
-    NewplayerArray = playerArray[:pi] +playerArray[pi+1:]
+    player = playerRoulette(playerArray)
+    playerArray.remove(player)
 
-    return p, NewplayerArray
+    return player, playerArray
 
+
+def playerRoulette(playerArray):
+    rouletteWheelPosition = random() * sum([player.stamina for player in playerArray])
+    spinWhell = 0
+    staminaSortedPlayers = sorted(playerArray, key = lambda player: player.stamina, reverse = True)
+    for i in range(len(staminaSortedPlayers)):
+        spinWhell += staminaSortedPlayers[i].stamina;
+        if spinWhell >= rouletteWheelPosition:
+            return staminaSortedPlayers[i];
+
+    return staminaSortedPlayers[-1];
 
 if __name__ == "__main__":
     print("hi from main")
@@ -210,9 +233,7 @@ if __name__ == "__main__":
     bt.addPlayer("xande")
     bt.addPlayer("mariele")
 
-    #out = bt.getPlayers()
-    bt.alive = bt.players
-    out = br.playerRoulette()
+    out = bt.getPlayers()
+
+    out = bt.run()
     print(out)
-    #out = bt.run()
-    #print(out)

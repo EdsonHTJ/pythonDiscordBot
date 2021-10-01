@@ -68,14 +68,9 @@ class BattleRoyale():
 
     def run(self):
         self.alive = self.players
+        isDay = False
         while(len(self.alive) > 2):
-            event = Events.randomEvent(self.DEATHCHANCE, self.SINGLEKILLCHANCE)
-            if event == Events.NOTHING:
-                self.eventNothing()
-            if event == Events.DEATH:
-                self.eventDeath()
-            if event == Events.SINGLEKILL:
-                self.eventKill()
+            ...
 
         winner = self.versus(self.alive[0], self.alive[1])
 
@@ -124,9 +119,23 @@ class BattleRoyale():
         
         return player1
 
+    def execDay(self):
+        increaseStamina()
+        execEvent()
 
 
+    def execEvent(self):
+        event = Events.randomEvent(self.DEATHCHANCE, self.SINGLEKILLCHANCE)
+        if event == Events.NOTHING:
+            self.eventNothing()
+        if event == Events.DEATH:
+            self.eventDeath()
+        if event == Events.SINGLEKILL:
+            self.eventKill()
 
+    def increaseStamina():
+        for player in self.alive:
+            player += randint(0, 100 - player.stamina)
 
 
     def eventNothing(self):
@@ -167,7 +176,16 @@ class BattleRoyale():
         self.output += out1.replace("@k@", pk.name, 1)
 
 
+    def playerRoulette(self):
+        roulette_wheel_position = random() * sum([player.stamina for player in self.alive])
+        spin_whell = 0
+        staminaSortedPlayers = sorted(self.alive, key = lambda player: player.stamina, reverse = True)
+        for i in range(len(staminaSortedPlayers)):
+            spin_whell += staminaSortedPlayers[i];
+            if spin_whell >= roulette_wheel_position:
+                return staminaSortedPlayers[i];
 
+        return staminaSortedPlayers[-1];
     
 
 
@@ -192,7 +210,9 @@ if __name__ == "__main__":
     bt.addPlayer("xande")
     bt.addPlayer("mariele")
 
-    out = bt.getPlayers()
+    #out = bt.getPlayers()
+    bt.alive = bt.players
+    out = br.playerRoulette()
     print(out)
-    out = bt.run()
-    print(out)
+    #out = bt.run()
+    #print(out)

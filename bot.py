@@ -4,8 +4,11 @@ from discord.ext import commands
 from discord.ext.commands.core import command
 from music.music import getVideoInfo
 from pycoingecko import CoinGeckoAPI
+from battleRoyale.battle import BattleRoyale
 import asyncio
 from threading import Thread
+import time
+
 
 from random import randint
 
@@ -15,6 +18,7 @@ class bot(commands.Cog):
     def __init__(self, client):
         self.client = client
         self.urlQueue = []
+        self.br = BattleRoyale()
 
     @commands.command()
     async def join(self, ctx):
@@ -132,6 +136,31 @@ class bot(commands.Cog):
         cg = CoinGeckoAPI()
         price = cg.get_price(ids = coin, vs_currencies = vsc)
         await ctx.send(f"{coin.title()}: {price[coin][vsc]} {vsc.upper()}")
+
+    @commands.command()
+    async def br(self, ctx, *args):
+        arg = args[0]
+
+        if arg == "new":
+            await ctx.send("New beto Real Game")
+            self.br = BattleRoyale()
+        elif arg == "add":
+
+            if len(args) < 2:
+                await ctx.send("inform player")
+                return
+
+            name = args[1]
+            self.br.addPlayer(name)
+        
+        elif arg == "run":
+            out = self.br.run()
+            lines = out.splitlines()
+            for line in lines:
+                time.sleep(4)
+                await ctx.send(line)
+
+
 
 
 def setup(client):

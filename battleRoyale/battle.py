@@ -4,8 +4,6 @@ from random import seed
 from random import random
 from random import randint
 
-SINGLEKILLCHANCE = 0.6
-DEATHCHANCE = 0.8
 
 deaths = open('./battleRoyale/DEATH.txt', 'r').readlines()
 singleKills =  open('./battleRoyale/SINGLEKILL.txt', 'r').readlines()
@@ -27,13 +25,13 @@ class Events(Enum):
     DEATH = 2
     #MULTIKILL = 3
 
-    def randomEvent():
+    def randomEvent(dc, skc):
         value = random()
 
-        if value > DEATHCHANCE:
+        if value > dc:
             return Events.NOTHING
         
-        elif value > SINGLEKILLCHANCE:
+        elif value > skc:
             return Events.SINGLEKILL
         
         else:
@@ -55,6 +53,9 @@ class BattleRoyale():
         self.dead = []
         self.output = ""
 
+        self.SINGLEKILLCHANCE = 0.6
+        self.DEATHCHANCE = 0.8
+
 
     def addPlayer(self, name):
         self.players.append(player(name))
@@ -65,22 +66,11 @@ class BattleRoyale():
             output += player.name + "\n"
 
         return output
-    
-    def onlyOneAlive(self):
-        n = 0
-        for player in self.players:
-            if player.status == States.ALIVE:
-                n +=1
-
-        if n > 1:
-            return False
-        
-        return True
 
     def run(self):
         self.alive = self.players
         while(len(self.alive) > 2):
-            event = Events.randomEvent()
+            event = Events.randomEvent(self.DEATHCHANCE, self.SINGLEKILLCHANCE)
 
             if event == Events.NOTHING:
                 self.eventNothing()
@@ -143,8 +133,8 @@ class BattleRoyale():
 
     def eventNothing(self):
 
-        SINGLEKILLCHANCE -= 0.01
-        DEATHCHANCE -= 0.01
+        self.SINGLEKILLCHANCE -= 0.01
+        self.DEATHCHANCE -= 0.01
         pi = randint(0, len(self.alive) - 1)
         p = self.alive[pi]
 

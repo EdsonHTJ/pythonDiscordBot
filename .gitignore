@@ -132,4 +132,4 @@ dmypy.json
 /documentos
 /documentos_txt
 APIKEY.txt
-*.txt
+/battleRoyale/*.txt

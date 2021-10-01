@@ -29,8 +29,7 @@ class Events(Enum):
         value = random()
 
         if value > dc:
-            return Events.NOTHING
-        
+            return Events.DEATH
         elif value > skc:
             return Events.SINGLEKILL
         
@@ -71,7 +70,6 @@ class BattleRoyale():
         self.alive = self.players
         while(len(self.alive) > 2):
             event = Events.randomEvent(self.DEATHCHANCE, self.SINGLEKILLCHANCE)
-
             if event == Events.NOTHING:
                 self.eventNothing()
             if event == Events.DEATH:

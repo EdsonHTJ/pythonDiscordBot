@@ -154,11 +154,15 @@ class bot(commands.Cog):
             self.br.addPlayer(name)
         
         elif arg == "run":
-            out = self.br.run()
-            lines = out.splitlines()
+            lines = self.br.run()
             for line in lines:
-                time.sleep(4)
-                await ctx.send(line)
+                time.sleep(3)
+                if ("path" in line):
+                    await ctx.send(file = discord.File(line["path"])) 
+                elif ("colour" in line):
+                    await ctx.send(embed = discord.Embed(colour = line["colour"], description = line["message"]))
+                else:
+                    await ctx.send(line)
 
 
 

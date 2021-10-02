@@ -90,6 +90,7 @@ class BattleRoyale():
             "colour": 0xffa600,
             "message": winner.name + " is the winner",
             "img_url": "https://media0.giphy.com/media/mCdhhsCLGluNi/giphy.gif",
+            "music" : "https://www.youtube.com/watch?v=FpnQvVV7gB4",
             "footer": {
                 "text": "Mensagens aleatórias de campeões",
                 "icon_url": "https://pngimg.com/uploads/crown/crown_PNG23872.png"
@@ -124,6 +125,7 @@ class BattleRoyale():
         self.output.append({
             "img_url": RandomImages.randomMoonGif(), 
             "colour": 0x0b2496, 
+            "music" : "https://www.youtube.com/watch?v=s_eHTKuCkpc&t=28s",
             "message": f'   Começo da noite {counter} -- :waxing_gibbous_moon:\n'})
         if(random() <= self.worldEventsChances):
             output, playersKilled, alive = worldEvents(self.alive).execEvent()

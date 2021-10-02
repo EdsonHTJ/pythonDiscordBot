@@ -157,12 +157,16 @@ class bot(commands.Cog):
             lines = self.br.run()
             for line in lines:
                 time.sleep(3)
-                if ("path" in line):
-                    await ctx.send(file = discord.File(line["path"])) 
-                elif ("colour" in line):
-                    await ctx.send(embed = discord.Embed(colour = line["colour"], description = line["message"]))
+                if("colour" in line):
+                    embed = discord.Embed(colour = line["colour"], description = line["message"])
                 else:
-                    await ctx.send(line)
+                    embed = discord.Embed(description = line)
+                if("img_url" in line):
+                    embed.set_image(url = line["img_url"])
+                if("footer" in line):
+                    embed.set_footer(text = line["footer"]["text"], icon_url = line["footer"]["icon_url"])
+                
+                await ctx.send(embed = embed) 
 
 
 

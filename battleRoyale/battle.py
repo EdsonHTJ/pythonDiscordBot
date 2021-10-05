@@ -8,9 +8,7 @@ from battleRoyale.dayAndNightCicle.simulator import simulator
 from battleRoyale.player import player
 import copy
 
-
 versusMask = "[ @l1@ ] @p1@ vs @p2@ [ @l2@ ] \n"
-
 
 class BattleRoyale():
     def __init__(self) -> None:

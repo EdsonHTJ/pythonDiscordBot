@@ -1,5 +1,6 @@
 from random import random
 from random import randint
+from battleRoyale.utils.randomPlayer import getRandomPlayerFromArray
 
 singleKills =  open('./battleRoyale/SINGLEKILL.txt', 'r').readlines()
 
@@ -8,7 +9,7 @@ def eventKill(player, refAlive, refDead, refDeadToday, refOutput):
     staminaLost = staminaLost if staminaLost <= player.stamina else player.stamina
     player.stamina -= staminaLost
 
-    playerKilled, refAlive = getRandomPlayerFromArray(refAlive)
+    playerKilled = getRandomPlayerFromArray(refAlive)
     refAlive.append(player)
     refDead.append(playerKilled)
     refDeadToday.append(playerKilled)
@@ -23,22 +24,3 @@ def eventKill(player, refAlive, refDead, refDeadToday, refOutput):
             "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emoji_u26a1.svg/1200px-Emoji_u26a1.svg.png"
         }
     })
-    
-    return refAlive, refDead, refDeadToday, refOutput
-
-def getRandomPlayerFromArray(playerArray):
-    player = playerRoulette(playerArray)
-    playerArray.remove(player)
-
-    return player, playerArray
-
-def playerRoulette(playerArray):
-    rouletteWheelPosition = random() * sum([player.stamina for player in playerArray])
-    spinWhell = 0
-    staminaSortedPlayers = sorted(playerArray, key = lambda player: player.stamina, reverse = True)
-    for i in range(len(staminaSortedPlayers)):
-        spinWhell += staminaSortedPlayers[i].stamina
-        if spinWhell >= rouletteWheelPosition:
-            return staminaSortedPlayers[i]
-
-    return staminaSortedPlayers[-1]

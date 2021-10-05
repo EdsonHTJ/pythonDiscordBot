@@ -5,6 +5,7 @@ from battleRoyale.events.kill import eventKill
 from battleRoyale.events.nothing import eventNothing
 from battleRoyale.events.versus import eventVersus
 from battleRoyale.events.eventsEnum import Events
+from battleRoyale.utils.randomPlayer import getRandomPlayerFromArray
 
 def execEvent(refAlive, refDead, refDeadToday, refOutput):
     if(len(refAlive) <= 2):
@@ -13,7 +14,7 @@ def execEvent(refAlive, refDead, refDeadToday, refOutput):
             player.DEATHCHANCE = 1
             player.VERSUSCHANCE = 0.2
 
-    player, refAlive = getRandomPlayerFromArray(refAlive)
+    player = getRandomPlayerFromArray(refAlive)
     event = Events.randomEvent(player.DEATHCHANCE, player.SINGLEKILLCHANCE, player.VERSUSCHANCE)
 
     if event == Events.NOTHING:
@@ -24,22 +25,5 @@ def execEvent(refAlive, refDead, refDeadToday, refOutput):
         return eventKill(player, refAlive, refDead, refDeadToday, refOutput)
     if event == Events.VERSUS:
         return eventVersus(player, refAlive, refDead, refDeadToday, refOutput)
-
-def getRandomPlayerFromArray(playerArray):
-    player = playerRoulette(playerArray)
-    playerArray.remove(player)
-
-    return player, playerArray
-
-def playerRoulette(playerArray):
-    rouletteWheelPosition = random() * sum([player.stamina for player in playerArray])
-    spinWhell = 0
-    staminaSortedPlayers = sorted(playerArray, key = lambda player: player.stamina, reverse = True)
-    for i in range(len(staminaSortedPlayers)):
-        spinWhell += staminaSortedPlayers[i].stamina;
-        if spinWhell >= rouletteWheelPosition:
-            return staminaSortedPlayers[i];
-
-    return staminaSortedPlayers[-1];
 
     

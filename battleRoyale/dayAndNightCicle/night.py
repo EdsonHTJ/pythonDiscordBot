@@ -9,6 +9,7 @@ def execNight(counter, worldEventsChances, refAlive, refDead, refDeadToday, refO
         "img_url": randomNightImage(),
         "colour": 0x0b2496, 
         "message": f'   Começo da noite {counter} -- :waxing_gibbous_moon:\n',
+        "music" : "https://www.youtube.com/watch?v=s_eHTKuCkpc&t=28s",
         "footer": {
             "text": "Mensagens aleatórias motivacionais",
             "icon_url": "https://snipstock.com/assets/cdn/png/ba1ab80ab5c41f4ed9031496422a4855.png"

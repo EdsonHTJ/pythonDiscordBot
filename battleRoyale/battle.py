@@ -43,6 +43,7 @@ class BattleRoyale():
             "colour": 0xffa600,
             "message": winner.name + " is the winner",
             "img_url": "https://media0.giphy.com/media/mCdhhsCLGluNi/giphy.gif",
+            "music" : "https://www.youtube.com/watch?v=FpnQvVV7gB4",
             "footer": {
                 "text": "Mensagens aleatórias de campeões",
                 "icon_url": "https://pngimg.com/uploads/crown/crown_PNG23872.png"
@@ -61,18 +62,3 @@ class BattleRoyale():
             output += player.name + "\n"
 
         return output
-
-if __name__ == "__main__":
-    print("hi from main")
-    bt = BattleRoyale()
-    bt.addPlayer("Jose")
-    bt.addPlayer("Jair")
-    bt.addPlayer("claudio")
-    bt.addPlayer("cleito")
-    bt.addPlayer("ruberval")
-    bt.addPlayer("xande")
-    bt.addPlayer("mariele")
-
-    out = bt.getPlayers()
-
-    out = bt.run()

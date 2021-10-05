@@ -12,6 +12,7 @@ def eventVersus(player1, refAlive, refDead, refDeadToday, refOutput):
         "colour": 0xff3700,
         "message": f'{player1.name} e {player2.name} se encontraram e começaram a lutar!',
         "img_url": "https://c.tenor.com/yd7Ntm5sUHMAAAAC/sasuke-naruto.gif",
+        "music": "https://www.youtube.com/watch?v=mjjkHg5FOhk",
         "footer": {
             "text": f"Vou matar esse filho da puta! disse {player1.name if random() > 0.5 else player2.name}",
             "icon_url": "https://cdn.iconscout.com/icon/premium/png-256-thumb/boxing-glove-2083061-1754353.png"

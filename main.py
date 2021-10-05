@@ -8,7 +8,7 @@ cogs = [bot]
 
 apikey = open("./APIKEY.txt","r").read()
      
-client = commands.Bot(command_prefix=';dev', Intents= discord.Intents.all)
+client = commands.Bot(command_prefix=';', Intents= discord.Intents.all)
 
 for i in range(len(cogs)):
     cogs[i].setup(client)

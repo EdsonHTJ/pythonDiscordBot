@@ -11,5 +11,3 @@ def eventDeath(player, refAlive, refDead, refDeadToday, refOutput):
         "colour": 0x000000, 
         "message": deaths[rq].replace("@v@", player.name, 1)
     })
-
-    return refAlive, refDead, refDeadToday, refOutput

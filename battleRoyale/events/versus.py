@@ -1,11 +1,12 @@
 from random import randint
 from random import random
+from battleRoyale.utils.randomPlayer import getRandomPlayerFromArray
 
 versus = open('./battleRoyale/VERSUS.txt', 'r').readlines()
 versusMask = "[ @l1@ ] @p1@ vs @p2@ [ @l2@ ] \n"
 
 def eventVersus(player1, refAlive, refDead, refDeadToday, refOutput):
-    player2, refAlive = getRandomPlayerFromArray(refAlive.copy())
+    player2= getRandomPlayerFromArray(refAlive)
 
     refOutput.append({
         "colour": 0xff3700,
@@ -77,23 +78,3 @@ def eventVersus(player1, refAlive, refDead, refDeadToday, refOutput):
             "icon_url": "https://www.seekpng.com/png/full/791-7913808_free-download-minecraft-heart.png"
         }
     })
-
-    
-    return refAlive, refDead, refDeadToday, refOutput
-
-def getRandomPlayerFromArray(playerArray):
-    player = playerRoulette(playerArray)
-    playerArray.remove(player)
-
-    return player, playerArray
-
-def playerRoulette(playerArray):
-    rouletteWheelPosition = random() * sum([player.stamina for player in playerArray])
-    spinWhell = 0
-    staminaSortedPlayers = sorted(playerArray, key = lambda player: player.stamina, reverse = True)
-    for i in range(len(staminaSortedPlayers)):
-        spinWhell += staminaSortedPlayers[i].stamina
-        if spinWhell >= rouletteWheelPosition:
-            return staminaSortedPlayers[i]
-
-    return staminaSortedPlayers[-1]

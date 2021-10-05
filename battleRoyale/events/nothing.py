@@ -18,5 +18,3 @@ def eventNothing(player, refAlive, refDead, refDeadToday, refOutput):
             "icon_url": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Emoji_u26a1.svg/1200px-Emoji_u26a1.svg.png"
         }
     })
-    
-    return refAlive, refDead, refDeadToday, refOutput

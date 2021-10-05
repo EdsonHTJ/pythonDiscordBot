@@ -19,6 +19,7 @@ class bot(commands.Cog):
         self.client = client
         self.urlQueue = []
         self.br = BattleRoyale()
+        self.hidePlay = False
 
     @commands.command()
     async def join(self, ctx):
@@ -60,7 +61,8 @@ class bot(commands.Cog):
         info, source = await getVideoInfo(url)
         self.urlQueue.append( (info, source) )
 
-        await ctx.send(f"Added -> {info.get('title', None)}")
+        if not self.hidePlay:
+            await ctx.send(f"Added -> {info.get('title', None)}")
 
     def playNextVideo(self, ctx):
 
@@ -80,7 +82,8 @@ class bot(commands.Cog):
         video_title = info.get('title', None)
         video_id = info.get("id", None)
 
-        self.send(ctx, f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
+        if not self.hidePlay:
+            self.send(ctx, f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
 
         print(f"playing: {video_title} \nhttps://www.youtube.com/watch?v={video_id}")
 
@@ -165,6 +168,13 @@ class bot(commands.Cog):
                     embed.set_image(url = line["img_url"])
                 if("footer" in line):
                     embed.set_footer(text = line["footer"]["text"], icon_url = line["footer"]["icon_url"])
+                if("music" in line):
+                    self.hidePlay = True
+                    await self.join(ctx)
+                    if  ctx.voice_client.is_playing():
+                        ctx.voice_client.stop()
+                    await self.play(ctx, line["music"])
+                    self.hidePlay = False
                 
                 await ctx.send(embed = embed) 
 

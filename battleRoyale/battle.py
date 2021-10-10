@@ -17,7 +17,7 @@ class BattleRoyale():
         self.dead = []
         self.output = []
         self.deadToday = []
-        self.defaultChances = [0.6, 0.8, 1] #SINGLEKILL, DEATH, VERSUS
+        self.defaultChances = [0.3, 0.1, 0.0] #SINGLEKILL, DEATH, VERSUS
         self.worldEventsChances = 0.1
         self.simulator = simulator(True, self.worldEventsChances)
 

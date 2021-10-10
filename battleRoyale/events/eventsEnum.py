@@ -9,12 +9,16 @@ class Events(Enum):
     VERSUS = 4
 
     def randomEvent(dc, skc, vc):
-        value = random()
-        if value > dc:
-            return Events.DEATH
-        elif value > skc:
-            return Events.SINGLEKILL
-        elif value > vc:
-            return Events.VERSUS
-        else:
-            return Events.NOTHING
+        chances = [{"chance":dc, "event":Events.DEATH},
+                    {"chance":skc,"event":Events.SINGLEKILL},
+                    {"chance":vc, "event":Events.VERSUS}]
+
+        rouletteWheelPosition = random()*sum([chance['chance'] for chance in chances ])
+        chances = sorted(chances,key = lambda chance: chance['chance'],reverse=True)
+        spinWhell = 0
+        for i in range(len(chances)):
+            spinWhell +=  chances[i]["chance"]
+            if rouletteWheelPosition < spinWhell:
+                return chances[i]['event']
+
+        return Events.NOTHING

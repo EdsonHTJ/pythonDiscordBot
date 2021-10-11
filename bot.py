@@ -153,8 +153,9 @@ class bot(commands.Cog):
                 await ctx.send("inform player")
                 return
 
-            name = args[1]
-            self.br.addPlayer(name)
+            names = args[1:]
+            for name in names:
+                self.br.addPlayer(name)
         
         elif arg == "run":
             lines = self.br.run()

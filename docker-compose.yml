@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    app:
+        build:
+            context: .
+            dockerfile: ./pythonDiscordBot.DockerFile
+        image: pythondiscordbot/app
+        # ports:
+        #     - "80:80"
+        #     - "443:443"
+        # environment:
+        #     - 

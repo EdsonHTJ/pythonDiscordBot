@@ -133,3 +133,7 @@ dmypy.json
 /documentos_txt
 APIKEY.txt
 /battleRoyale/*.txt
+PythonDiscordBot/battleRoyale/DEATH.txt
+PythonDiscordBot/battleRoyale/NOTHING.txt
+PythonDiscordBot/battleRoyale/VERSUS.txt
+PythonDiscordBot/battleRoyale/SINGLEKILL.txt
